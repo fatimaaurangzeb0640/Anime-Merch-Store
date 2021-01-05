@@ -12,7 +12,7 @@ import * as actionsCart from '../store/actions/cart';
 class Home extends React.Component {
     componentDidMount(){
         this.props.onTryAutoSignup();
-        this.props.refreshCart();
+       // this.props.refreshCart();
     }
     render() {
         return (
@@ -52,7 +52,7 @@ const mapStateToProps = state => {
   //This checking the state of the user is still authenticated
   const mapDispatchToProps = dispatch => {
     return {
-       refreshCart: () => dispatch(actionsCart.fetchCart()),
+       //refreshCart: () => dispatch(actionsCart.fetchCart()),
        onTryAutoSignup: () => dispatch(actionsAuth.authCheckState())
     }
   }

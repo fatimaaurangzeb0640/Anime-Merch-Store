@@ -8,10 +8,11 @@ export const cartStart = () => {
   };
 };
 
-export const cartSuccess = data => {
+export const cartSuccess = (data, itemCount) => {
   return {
     type: CART_SUCCESS,
-    data: data
+    data: data,
+    //itemCount: itemCount
   };
 };
 
@@ -29,6 +30,18 @@ export const fetchCart = () => {
       .get(orderSummaryURL)
       .then(json => {
         console.log(json.data);
+       /* var data = json.data;
+        console.log('length:'+ Object.keys(data).length);
+        if(Object.keys(data).length === 0){
+          console.log('no items');
+          dispatch(cartSuccess(json.data));
+          localStorage.setItem('cartItemsCount',0);
+        }
+        else{
+          console.log('itemsss');
+          dispatch(cartSuccess(json.data));
+          localStorage.setItem('cartItemsCount',1);
+        }*/
         dispatch(cartSuccess(json.data));
       })
       .catch(err => {
@@ -36,6 +49,8 @@ export const fetchCart = () => {
       });
   };
 };
+
+
 
 /*export const fetchCart = () => {
   return dispatch => {

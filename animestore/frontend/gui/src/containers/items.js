@@ -17,15 +17,41 @@ class ItemList extends React.Component {
 
     this.state = {
       items: this.props.items,
-      addToCart : []
+      addToCart : [], 
+      //cartItemsCount : 0,
   }
   this.handleAddToCart = this.handleAddToCart.bind(this)
 }
   
-componentDidMount(){
-  //console.log(this.props.items);
+componentDidMount() {
+  
+  /*console.log(localStorage.getItem('cartItemsCount'));
+  //if (this.props.cartItems.length === 0 && localStorage.getItem('cartItemsCount') === 0)
+  if (localStorage.getItem('cartItemsCount') === 'true'){
+    console.log('hi0'); 
+    console.log(localStorage.getItem('cartItemsCount'));
+      this.props.refreshCart();
+      if (this.props.getItem.length!==0){
+        localStorage.setItem('cartItemsCount','false');
+      }
+      //localStorage.setItem('cartItemsCount','false');
+      console.log(localStorage.getItem('cartItemsCount'));
+  }
+
+  if (localStorage.getItem('cartItemsCount') === 'false'){
+    if(this.props.cartItems.length === 0){
+      console.log(this.props.cartItems);
+      this.props.refreshCart();
+    }
+  }*/
+
+  if (this.props.cartItems.length===0){
+    if(localStorage.getItem('cartItemsCount') === 'false'){
+      this.props.refreshCart();
+    }
+  }
   this.props.onTryAutoSignup();
-  this.props.refreshCart();
+  //this.props.refreshCart();
   console.log(this.props.loading);
   console.log('the user is authenticated:'+this.props.isAuthenticated)
   console.log(this.props.cartItems);
@@ -48,7 +74,7 @@ componentDidMount(){
 }
   //CartItems() here handles which product's add to cart's button should be disabled already
     handleCartItems(addToCart){
-      this.props.refreshCart();
+      //this.props.refreshCart();
       console.log(this.props.cartItems);
       console.log(this.state.addToCart);
       if (this.props.cartItems !== undefined)
@@ -91,9 +117,12 @@ componentDidMount(){
       console.log(index);
 
     //this.setState({ loading: true });
+    if (localStorage.getItem('token') !== null)
+    {
     authAxios
       .post(addToCartURL, { slug })
       .then(res => {
+        console.log(localStorage.getItem('token'));
         console.log("added to cart");
         let addToCart = [...this.state.addToCart]
     let atc = {... addToCart[index]}
@@ -101,10 +130,14 @@ componentDidMount(){
     addToCart[index] = atc;
     this.setState({addToCart:addToCart});
     console.log(this.state.addToCart);
-        //this.props.refreshCart();
+    this.props.refreshCart();
+    //this.props.refreshCart();
         //this.setState({ loading: false });
       })
-
+    }
+    else{
+      console.log('not authenticated');
+    }
       //.catch(err => {
        // this.setState({ addToCart:false });
      // });
@@ -146,19 +179,21 @@ componentDidMount(){
             <Item.Description>{item.description}</Item.Description>
             <Item.Extra>
            {  
-            addToCart[items.indexOf(item)] ?
-              <Button primary floated='right' 
+          (addToCart[items.indexOf(item)]===false && this.props.isAuthenticated)?
+          <Button floated='right' disabled color='black'>
+          Added to cart
+          <Icon name='shopping cart' />
+          </Button>
+              :
+          <Button primary floated='right' 
                       data-slug={item.slug}
                       data-index={items.indexOf(item)}
                     onClick={this.handleAddToCart}
               >
                 Add to cart
                 <Icon name='shopping cart' />
-              </Button>:
-              <Button floated='right' disabled color='black'>
-          Added to cart
-          <Icon name='shopping cart' />
-          </Button>
+              </Button>
+              
             
           }
               <Label>Limited</Label>
@@ -180,20 +215,22 @@ componentDidMount(){
 const mapStateToProps = (state) => {
   console.log(state.cart.cartItems);
     return {
-            //cartItems: console.log(state.cart.shoppingCart)
+            //c: console.log(state.cart.shoppingCart),
             cartItems: state.cart.cartItems,
+            //itemCount: state.cart.itemCount,
             loading: state.cart.loading,
             error: state.cart.error,
             isAuthenticated: state.auth.token !== null
           };
         };
                       
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps =  dispatch => {
 return {
         refreshCart: () => dispatch(actionsCart.fetchCart()),
         onTryAutoSignup: () => dispatch(actionsAuth.authCheckState())
-      }
-    }
+      };
+    };
+  
 export default connect(mapStateToProps, mapDispatchToProps)(ItemList);
 
  

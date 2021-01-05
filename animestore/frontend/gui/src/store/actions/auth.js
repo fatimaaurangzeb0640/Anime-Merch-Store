@@ -1,5 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import { authAxios } from "../../utils";
+import { orderSummaryURL } from "../../constants";
 
 export const authStart = () => {
     return {
@@ -51,6 +53,24 @@ export const authLogin = (username, password) => {
                 localStorage.setItem('expirationDate', expirationDate);
                 dispatch(authSuccess(token));
                 dispatch(checkAuthTimeout(3600));
+
+                authAxios
+                .get(orderSummaryURL)
+                .then(json => {
+                    console.log(json.data);
+                    var data = json.data;
+                    console.log('length:'+ Object.keys(data).length);
+                    if(Object.keys(data).length === 0){
+                    console.log('no items');
+                    localStorage.setItem('cartItemsCount','true'); //true means zero items
+                    console.log(localStorage.getItem('cartItemsCount'));
+                    }
+                    else{
+                    console.log('itemsss');
+                    localStorage.setItem('cartItemsCount','false'); //false means more than zero items
+                    console.log(localStorage.getItem('cartItemsCount'));
+                    }
+                })
             })
             .catch(err => {
                 dispatch(authFail(err))

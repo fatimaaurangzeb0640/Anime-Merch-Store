@@ -164,7 +164,11 @@ class CustomLayout extends Component {
 }
 handleLogout=()=>{
 this.props.logout();
+console.log("token: "+localStorage.getItem('token'));
+console.log('this is handle logout');
+this.props.onTryAutoSignup();
 this.props.refreshCart();
+localStorage.removeItem('cartItemsCount');
 console.log(this.props.cartItems);
 this.props.history.push('/');
 }
@@ -259,7 +263,8 @@ const mapDispatchToProps = dispatch => {
   return {
     
     refreshCart: () => dispatch(actionsCart.fetchCart()),
-      logout: () => dispatch(actionsAuth.logout())
+    logout: () => dispatch(actionsAuth.logout()),
+    onTryAutoSignup: () => dispatch(actionsAuth.authCheckState())
       
   }
 }

@@ -21,7 +21,7 @@ class Category extends React.Component {
 
     componentDidMount(){
         this.props.onTryAutoSignup();
-        this.props.refreshCart();
+        //this.props.refreshCart();
     }
     
     render() {
@@ -103,7 +103,7 @@ const mapStateToProps = state => {
   //This checking the state of the user is still authenticated
   const mapDispatchToProps = dispatch => {
     return {
-        refreshCart: () => dispatch(actionsCart.fetchCart()),
+        //refreshCart: () => dispatch(actionsCart.fetchCart()),
         onTryAutoSignup: () => dispatch(actionsAuth.authCheckState())
      }
   }

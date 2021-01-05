@@ -7,7 +7,9 @@ class Cart extends React.Component {
     componentDidMount(){
         //let cartItems = this.props.fetchCart();
         //console.log(this.props.fetchCart());
+        console.log('cartdetails mounted');
         this.props.refreshCart();
+        console.log(this.props.cartItems);
        // console.log('Cart items are:'+this.props.cartItems);
         //this.props.refreshCart();
     }
@@ -70,7 +72,7 @@ const mapStateToProps = (state) => {
             }
           }
                 
-  export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
 //export default Cart;
 /*
  {this.props.cartItems.map(item => {

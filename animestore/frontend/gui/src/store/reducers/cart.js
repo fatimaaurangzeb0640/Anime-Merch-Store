@@ -1,9 +1,11 @@
+//import { CommentActions } from "semantic-ui-react";
 import { CART_START, CART_SUCCESS, CART_FAIL } from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
 
 const initialState = {
   cartItems: [],
+  //itemCount: false,
   error: null,
   loading: false
 };
@@ -18,6 +20,7 @@ const cartStart = (state, action) => {
 const cartSuccess = (state, action) => {
   return updateObject(state, {
     cartItems: action.data,
+    //itemCount: action.itemCount,
     error: null,
     loading: false
   });
