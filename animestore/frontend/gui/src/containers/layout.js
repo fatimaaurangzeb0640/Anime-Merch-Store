@@ -147,6 +147,7 @@ class CustomLayout extends Component {
   }
   
   componentDidMount() {
+    
     console.log(this.props);
     setTimeout(function() {
       console.log(localStorage.getItem('token'));
@@ -163,13 +164,16 @@ class CustomLayout extends Component {
   }
 }
 handleLogout=()=>{
-this.props.logout();
-console.log("token: "+localStorage.getItem('token'));
 console.log('this is handle logout');
-this.props.onTryAutoSignup();
-this.props.refreshCart();
-localStorage.removeItem('cartItemsCount');
+//this.props.onTryAutoSignup();
+//this.props.refreshCart();
 console.log(this.props.cartItems);
+localStorage.removeItem('cartItemsCount');
+this.props.logout();
+//this.props.refreshCart();
+console.log("token: "+localStorage.getItem('token'));
+console.log(this.props.cartItems);
+//window.location.href = '/';
 this.props.history.push('/');
 }
   //handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -263,8 +267,9 @@ const mapDispatchToProps = dispatch => {
   return {
     
     refreshCart: () => dispatch(actionsCart.fetchCart()),
-    logout: () => dispatch(actionsAuth.logout()),
-    onTryAutoSignup: () => dispatch(actionsAuth.authCheckState())
+    //logout: () => dispatch(actionsAuth.logout()),
+    onTryAutoSignup: () => dispatch(actionsAuth.authCheckState()),
+    logout: () => dispatch(actionsAuth.finalLogout())
       
   }
 }

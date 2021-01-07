@@ -19,7 +19,8 @@ class Login extends Component {
     this.setState({ submittedUsername: username, submittedPassword: password })
     this.props.onAuth(username, password);
     console.log(username, password);
-    this.props.history.push('/'); 
+    this.props.history.push('/');
+    //window.location.href='/'; 
 
   }
 

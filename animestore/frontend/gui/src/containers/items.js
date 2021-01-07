@@ -44,12 +44,23 @@ componentDidMount() {
       this.props.refreshCart();
     }
   }*/
+  
 
+  console.log(this.props.cartItems);
+  console.log(localStorage.getItem('cartItemsCount'));
   if (this.props.cartItems.length===0){
+    console.log('cartitemsfromitem');
     if(localStorage.getItem('cartItemsCount') === 'false'){
       this.props.refreshCart();
+      localStorage.setItem('cartItemsCount', 'true');
     }
   }
+  /*else{
+    if(localStorage.getItem('refreshCart')=== true){
+      this.props.refreshCart();
+      localStorage.setItem('refreshCart','false');
+    }
+  }*/
   this.props.onTryAutoSignup();
   //this.props.refreshCart();
   console.log(this.props.loading);
@@ -145,7 +156,7 @@ componentDidMount() {
         //this.setState({addToCart:false});
     
     console.log('hi');
-  };
+  };  
   render() {
     const {items, addToCart} = this.state
       return (
@@ -154,9 +165,6 @@ componentDidMount() {
             
             {items.length!==0? 
             <div>
-            <h1>Items List</h1>
-
-
           <Item.Group divided>
           {items.map(item => {
           return (

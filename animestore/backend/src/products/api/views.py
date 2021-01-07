@@ -55,6 +55,7 @@ class CartDetailView(viewsets.ModelViewSet):
         try:
             print(self.request.user)
             order = Cart.objects.filter(user=self.request.user)
+            print(len(order))
             return order
             
         except ObjectDoesNotExist:
